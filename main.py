@@ -25,25 +25,39 @@ def find3(players, turnIndex):
         turnIndex = 3
     return turnIndex
     
-def type1(turnIndex, players, board):
-
+def type1(turnIndex, players, board, cards):
+    
     game = True
+    
     while game:
-        
+        invalid = True
         print(f"It is player {turnIndex+1}'s turn")
         print(players[turnIndex])
 
-        cardIndex = int(input("Type in the position of the card: "))
-        cardIndex -= 1
-        selectedCard = players[turnIndex][cardIndex]
-        board.append(selectedCard)
-        players[turnIndex].pop(cardIndex) #continue here
-        print(board[-1])
+        while invalid:
+
+            cardIndex = input("Type in the position of the card: ")
+            try:
+                cardIndex = int(cardIndex)
+                if cardIndex == 0:
+                    invalid = False
+                else:
+                    cardIndex -= 1
+                    selectedCard = players[turnIndex][cardIndex]
+                    if cards.index(selectedCard) >= cards.index(board[-1]):
+                        board.append(selectedCard)
+                        players[turnIndex].pop(cardIndex) #continue here
+                        print(board[-1])
+                        invalid = False
+                    else:
+                        print("INVALID")
+            except:
+                print("INVALID")
+            
 
         turnIndex += 1
         if turnIndex > 3:
             turnIndex = 0
-#end
 
     
 players = distributeCards(players, cards)
