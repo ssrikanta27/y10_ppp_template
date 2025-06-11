@@ -3,7 +3,7 @@ import random
 turnIndex = 0
 cards = ['3♦', '3♣', '3♥', '3♠', '4♦', '4♣', '4♥', '4♠', '5♦', '5♣', '5♥', '5♠', '6♦', '6♣', '6♥', '6♠', '7♦', '7♣', '7♥', '7♠', '8♦', '8♣', '8♥', '8♠', '9♦', '9♣', '9♥', '9♠', '10♦', '10♣', '10♥', '10♠', 'J♦', 'J♣', 'J♥', 'J♠', 'Q♦', 'Q♣', 'Q♥', 'Q♠', 'K♦', 'K♣', 'K♥', 'K♠', 'A♦', 'A♣', 'A♥', 'A♠', '2♦', '2♣', '2♥', '2♠']
 players = [[], [], [], []]
-board = []
+board = ['3♦']
 
 def distributeCards(players, cards):
     list = cards
@@ -23,10 +23,13 @@ def find3(players, turnIndex):
         turnIndex = 2
     elif '3♦' in players[3]:
         turnIndex = 3
+    
     return turnIndex
-    
+
+# turnIndex is set
+#start
 def type1(turnIndex, players, board, cards):
-    
+    passcount = 0
     game = True
     
     while game:
@@ -41,6 +44,7 @@ def type1(turnIndex, players, board, cards):
                 cardIndex = int(cardIndex)
                 if cardIndex == 0:
                     invalid = False
+                    passcount += 1
                 else:
                     cardIndex -= 1
                     selectedCard = players[turnIndex][cardIndex]
@@ -54,13 +58,31 @@ def type1(turnIndex, players, board, cards):
             except:
                 print("INVALID")
             
+        if passcount == 4:
+            return passcount
+        else:
+            turnIndex += 1
+            if turnIndex > 3:
+                turnIndex = 0
+#end
+                
+def type2(turnIndex, players, board, cards):
+    pass
 
-        turnIndex += 1
-        if turnIndex > 3:
-            turnIndex = 0
 
-    
+play = True
 players = distributeCards(players, cards)
 print(players)
 turnIndex = find3(players, turnIndex)
-type1(turnIndex, players, board)
+cards = ['3♦', '3♣', '3♥', '3♠', '4♦', '4♣', '4♥', '4♠', '5♦', '5♣', '5♥', '5♠', '6♦', '6♣', '6♥', '6♠', '7♦', '7♣', '7♥', '7♠', '8♦', '8♣', '8♥', '8♠', '9♦', '9♣', '9♥', '9♠', '10♦', '10♣', '10♥', '10♠', 'J♦', 'J♣', 'J♥', 'J♠', 'Q♦', 'Q♣', 'Q♥', 'Q♠', 'K♦', 'K♣', 'K♥', 'K♠', 'A♦', 'A♣', 'A♥', 'A♠', '2♦', '2♣', '2♥', '2♠']
+while play:
+    valid = False
+    while not valid:
+        gameType = input("Input a type of play, 1 - 5 excluding number 4: ")
+        try:
+            gameType = int(gameType)
+            valid = True
+        except:
+            valid = False
+    if gameType == 1:
+        type1(turnIndex, players, board, cards)
