@@ -67,62 +67,45 @@ def type1(turnIndex, players, board, cards):
 #end
                 
 def type2(turnIndex, players, board, cards):
-    passcount = 0
+    
     game = True
-    cardIndex = []
-    selectedCards = []
-    value = 0
     while game:
-        invalid = True
-        print(f"It is player {turnIndex+1}'s turn")
-        print(players[turnIndex])
 
-        while invalid:
-
-            cardIndexInput = input("Type in the position of the card: ")
-            cardIndexInput2 = input("Type in the position of the card: ")
+        valid = False
+        while not valid:
+            print(f"Player{turnIndex+1}'s turn")
+            print(players[turnIndex])
+            cardIndex = []
+            selectedCards = []
+            cardChoice1 = input("Enter the position of the first card: ")
+            cardChoice2 = input("Enter the position of the second card: ")
             try:
-                cardIndex.append(int(cardIndexInput))
-                cardIndex.append(int(cardIndexInput2))
-                if cardIndex[0] == 0:
-                    invalid = False
-                    passcount += 1
-                else:
-                    cardIndex[0] -= 1
-                    cardIndex[1] -= 1
-                    selectedCards.append(players[turnIndex][cardIndex[0]])
-                    selectedCards.append(players[turnIndex][cardIndex[1]])
-                    if cards.index(selectedCards[0]) > cards.index(selectedCards[1]):
-                        value = cards.index(selectedCards[0])
-                        c1 = cards.index(selectedCards[1])
-                        c2 = cards.index(selectedCards[0])
-                    else:
-                        value = cards.index(selectedCards[1])
-                        c1 = cards.index(selectedCards[0])
-                        c2 = cards.index(selectedCards[1])
-                    if value > cards.index(board[-1]):
-                        board.append(cards[c1])
-                        board.append(cards[c2])
-                        players[turnIndex].pop(cardIndex[0])
-                        players[turnIndex].remove(cards) # fix this
-                    
-                        print(board[-2], board[-1])
-                        invalid = False
-                    else:
-                        print("INVALID")
+                # Validate and add into the cardIndex list
+                cardIndex.append(int(cardChoice1)-1)
+                cardIndex.append(int(cardChoice2)-1)
+                # Get the string of the card
+                selectedCards.append(players[turnIndex][cardIndex[0]])
+                selectedCards.append(players[turnIndex][cardIndex[1]])
+                # Compare the index of the card 
+                # append the highest value card at the end of selectedCards
+                if cards.index(selectedCards[0]) > cards.index(selectedCards[1]):
+                    high = selectedCards[0]
+                    low = selectedCards[1]
+                    selectedCards[0] = low
+                    selectedCards[1] = high
+                # Compare the highest value card the previous card in the board
+                # If the value is larger then append both values to the board
+                if cards.index(selectedCards[1]) > cards.index(board[-1]):
+                    for i in range(2):
+                        board.append(selectedCards[i])
+                        valid == True
+                    print(board[-2])
+                    print(board[-1])
             except:
                 print("INVALID")
-            
-            if passcount == 4:
-                return passcount
-            else:
-                turnIndex += 1
-                if turnIndex > 3:
-                    turnIndex = 0 
-            
-
-
-
+            turnIndex += 1
+            if turnIndex > 3:
+                turnIndex = 0
 
 
 play = True
