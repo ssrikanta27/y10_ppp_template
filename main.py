@@ -93,6 +93,8 @@ def type2(turnIndex, players, board, cards):
                     low = selectedCards[1]
                     selectedCards[0] = low
                     selectedCards[1] = high
+                else:
+                    pass
                 # Compare the highest value card the previous card in the board
                 # If the value is larger then append both values to the board
                 if cards.index(selectedCards[1]) > cards.index(board[-1]):
@@ -101,11 +103,16 @@ def type2(turnIndex, players, board, cards):
                         valid == True
                     print(board[-2])
                     print(board[-1])
+                    turnIndex += 1
+                    if turnIndex > 3:
+                        turnIndex = 0
+                else:
+                    valid == False
+                    print("INVALID")
             except:
                 print("INVALID")
-            turnIndex += 1
-            if turnIndex > 3:
-                turnIndex = 0
+
+
 
 
 play = True
