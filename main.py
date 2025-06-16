@@ -126,7 +126,14 @@ def type2(turnIndex, players, board, cards):
                 print("INVALID")
 
 
-
+def type3(turnIndex, players, board, cards):
+    cardChoices = []
+    for i in range(3):
+        cardChoiceIndex = int(input("Input the position of the 1st card: ")) - 1
+        if cards.index(players[turnIndex][cardChoiceIndex]) > cards.index(cardChoices[-1]):
+            pass
+        else:
+            pass
 
 play = True
 players = distributeCards(players, cards)
