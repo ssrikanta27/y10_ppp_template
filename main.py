@@ -45,6 +45,7 @@ def type1(turnIndex, players, board, cards):
                 if cardIndex == 0:
                     invalid = False
                     passcount += 1
+                    
                 else:
                     cardIndex -= 1
                     selectedCard = players[turnIndex][cardIndex]
@@ -67,10 +68,9 @@ def type1(turnIndex, players, board, cards):
 #end
                 
 def type2(turnIndex, players, board, cards):
-    
+    passes = 0
     game = True
     while game:
-
         valid = False
         while not valid:
             print(f"Player{turnIndex+1}'s turn")
@@ -78,37 +78,50 @@ def type2(turnIndex, players, board, cards):
             cardIndex = []
             selectedCards = []
             cardChoice1 = input("Enter the position of the first card: ")
-            cardChoice2 = input("Enter the position of the second card: ")
             try:
-                # Validate and add into the cardIndex list
-                cardIndex.append(int(cardChoice1)-1)
-                cardIndex.append(int(cardChoice2)-1)
-                # Get the string of the card
-                selectedCards.append(players[turnIndex][cardIndex[0]])
-                selectedCards.append(players[turnIndex][cardIndex[1]])
-                # Compare the index of the card 
-                # append the highest value card at the end of selectedCards
-                if cards.index(selectedCards[0]) > cards.index(selectedCards[1]):
-                    high = selectedCards[0]
-                    low = selectedCards[1]
-                    selectedCards[0] = low
-                    selectedCards[1] = high
-                else:
-                    pass
-                # Compare the highest value card the previous card in the board
-                # If the value is larger then append both values to the board
-                if cards.index(selectedCards[1]) > cards.index(board[-1]):
-                    for i in range(2):
-                        board.append(selectedCards[i])
-                        valid == True
-                    print(board[-2])
-                    print(board[-1])
+                if int(cardChoice1) == 0:
+                    passes += 1
                     turnIndex += 1
                     if turnIndex > 3:
                         turnIndex = 0
-                else:
-                    valid == False
-                    print("INVALID")
+                    if passes == 4:
+                        return passes
+                else:           
+                    cardChoice2 = input("Enter the position of the second card: ")
+                    try:
+                        # Validate and add into the cardIndex list
+                        cardIndex.append(int(cardChoice1)-1)
+                        cardIndex.append(int(cardChoice2)-1)
+                        # Get the string of the card
+                        selectedCards.append(players[turnIndex][cardIndex[0]])
+                        selectedCards.append(players[turnIndex][cardIndex[1]])
+                        # Compare the index of the card 
+                        # append the highest value card at the end of selectedCards
+                        if cards.index(selectedCards[0]) > cards.index(selectedCards[1]):
+                            high = selectedCards[0]
+                            low = selectedCards[1]
+                            selectedCards[0] = low
+                            selectedCards[1] = high
+                        else:
+                            pass
+                        # Compare the highest value card the previous card in the board
+                        # If the value is larger then append both values to the board
+                        if cards.index(selectedCards[1]) > cards.index(board[-1]):
+                            for i in range(2):
+                                board.append(selectedCards[i])
+                                valid == True
+                            print(board[-2])
+                            print(board[-1])
+                            turnIndex += 1
+                            if turnIndex > 3:
+                                turnIndex = 0
+                            
+                        else:
+                            valid == False
+                            print("INVALID")
+                    except:
+                        print("INVALID")
+
             except:
                 print("INVALID")
 
