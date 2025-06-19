@@ -128,12 +128,16 @@ def type2(turnIndex, players, board, cards):
 
 def type3(turnIndex, players, board, cards):
     cardChoices = []
-    for i in range(3):
-        cardChoiceIndex = int(input("Input the position of the 1st card: ")) - 1
-        if cards.index(players[turnIndex][cardChoiceIndex]) > cards.index(cardChoices[-1]):
-            pass
-        else:
-            pass
+    cardChoiceIndex1 = int(input("Input the position of the 1st card: ")) - 1
+    cardChoiceIndex2 = int(input("Input the position of the 2nd card: ")) - 1
+    cardChoiceIndex3 = int(input("Input the position of the 3d card: ")) - 1:
+    cardChoices.append(players[turnIndex][cardChoiceIndex1])
+    cardChoices.append(players[turnIndex][cardChoiceIndex2])
+    cardChoices.append(players[turnIndex][cardChoiceIndex3])
+    players[turnIndex].pop(cardChoiceIndex1)
+    players[turnIndex].pop(cardChoiceIndex2)
+    players[turnIndex].pop(cardChoiceIndex3)
+
 
 play = True
 players = distributeCards(players, cards)
