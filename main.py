@@ -26,8 +26,7 @@ def find3(players, turnIndex):
     
     return turnIndex
 
-# turnIndex is set
-#start
+
 def type1(turnIndex, players, board, cards):
     passcount = 0
     game = True
@@ -65,7 +64,7 @@ def type1(turnIndex, players, board, cards):
             turnIndex += 1
             if turnIndex > 3:
                 turnIndex = 0
-#end
+
                 
 def type2(turnIndex, players, board, cards):
     passes = 0
@@ -128,6 +127,7 @@ def type2(turnIndex, players, board, cards):
 
 def type3(turnIndex, players, board, cards):
     cardChoices = []
+    cardValues = [-1]
     cardChoiceIndex1 = int(input("Input the position of the 1st card: ")) - 1
     cardChoiceIndex2 = int(input("Input the position of the 2nd card: ")) - 1
     cardChoiceIndex3 = int(input("Input the position of the 3d card: ")) - 1
@@ -137,6 +137,10 @@ def type3(turnIndex, players, board, cards):
     players[turnIndex].pop(cardChoiceIndex1)
     players[turnIndex].pop(cardChoiceIndex2)
     players[turnIndex].pop(cardChoiceIndex3)
+    for i in range(3):
+        if cards.index(cardChoices[i]) > cardValues[-1]:
+            pass
+
 
 
 play = True
