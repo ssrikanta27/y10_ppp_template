@@ -130,7 +130,7 @@ def type3(turnIndex, players, board, cards):
     cardChoices = []
     cardChoiceIndex1 = int(input("Input the position of the 1st card: ")) - 1
     cardChoiceIndex2 = int(input("Input the position of the 2nd card: ")) - 1
-    cardChoiceIndex3 = int(input("Input the position of the 3d card: ")) - 1:
+    cardChoiceIndex3 = int(input("Input the position of the 3d card: ")) - 1
     cardChoices.append(players[turnIndex][cardChoiceIndex1])
     cardChoices.append(players[turnIndex][cardChoiceIndex2])
     cardChoices.append(players[turnIndex][cardChoiceIndex3])
