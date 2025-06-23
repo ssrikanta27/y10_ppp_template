@@ -5,6 +5,19 @@ cards = ['3♦', '3♣', '3♥', '3♠', '4♦', '4♣', '4♥', '4♠', '5♦',
 players = [[], [], [], []]
 board = ['3♦']
 
+
+def validate(cardList, cards, boards):
+    if board != 0:
+        valueList = []
+        for i in range(len(cardList)):
+            valueList.append(cards.index(cardList[i]))
+        value = max(valueList)
+        return value
+    
+
+
+
+
 def distributeCards(players, cards):
     list = cards
     while list != []:
@@ -30,7 +43,7 @@ def find3(players, turnIndex):
 def type1(turnIndex, players, board, cards):
     passcount = 0
     game = True
-    
+    board = ['3♦']
     while game:
         invalid = True
         print(f"It is player {turnIndex+1}'s turn")
@@ -60,15 +73,22 @@ def type1(turnIndex, players, board, cards):
             
         if passcount == 4:
             return passcount
+            board = ['3♦']
         else:
+            if players[turnIndex] == []:
+                print(f"The winner is Player{turnIndex}")
+                return turnIndex
             turnIndex += 1
             if turnIndex > 3:
                 turnIndex = 0
 
+
                 
 def type2(turnIndex, players, board, cards):
+
     passes = 0
     game = True
+    board = ['3♦']
     while game:
         valid = False
         while not valid:
@@ -111,6 +131,9 @@ def type2(turnIndex, players, board, cards):
                                 valid == True
                             print(board[-2])
                             print(board[-1])
+                            if players[turnIndex] == []:
+                                print(f"The winner is Player{turnIndex}")
+                                return turnIndex
                             turnIndex += 1
                             if turnIndex > 3:
                                 turnIndex = 0
@@ -127,19 +150,13 @@ def type2(turnIndex, players, board, cards):
 
 def type3(turnIndex, players, board, cards):
     cardChoices = []
-    cardValues = [-1]
-    cardChoiceIndex1 = int(input("Input the position of the 1st card: ")) - 1
-    cardChoiceIndex2 = int(input("Input the position of the 2nd card: ")) - 1
-    cardChoiceIndex3 = int(input("Input the position of the 3d card: ")) - 1
-    cardChoices.append(players[turnIndex][cardChoiceIndex1])
-    cardChoices.append(players[turnIndex][cardChoiceIndex2])
-    cardChoices.append(players[turnIndex][cardChoiceIndex3])
-    players[turnIndex].pop(cardChoiceIndex1)
-    players[turnIndex].pop(cardChoiceIndex2)
-    players[turnIndex].pop(cardChoiceIndex3)
     for i in range(3):
-        if cards.index(cardChoices[i]) > cardValues[-1]:
-            pass
+        ans = input(f"Input the card index of card {i+1}: ")
+        try:
+            cardChoices.append(players[turnIndex][int(ans)])
+        except:
+            print("INVALID")
+
 
 
 
