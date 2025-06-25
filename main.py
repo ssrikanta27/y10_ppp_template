@@ -6,17 +6,21 @@ players = [[], [], [], []]
 board = ['3♦']
 
 
-def validate(cardList, cards, boards):
+def validate(cardList, cards, board):
     if board != 0:
         valueList = []
         for i in range(len(cardList)):
             valueList.append(cards.index(cardList[i]))
         value = max(valueList)
-        return value
-    
-
-
-
+        maxCarStep1 = valueList.index(value)
+        maxCard = cardList[maxCarStep1]
+    if cards.index(board[-1]) <= value:
+        for i in range(cardList):
+            if cardList[i] == maxCard:
+                pass
+            else:
+                board.append(cardList[i])
+            board.append(maxCard)
 
 def distributeCards(players, cards):
     list = cards
@@ -72,11 +76,12 @@ def type1(turnIndex, players, board, cards):
                 print("INVALID")
             
         if passcount == 4:
-            return passcount
             board = ['3♦']
+            return passcount
+            
         else:
             if players[turnIndex] == []:
-                print(f"The winner is Player{turnIndex}")
+                print(f"The winner is Player{turnIndex+1}")
                 return turnIndex
             turnIndex += 1
             if turnIndex > 3:
@@ -132,7 +137,7 @@ def type2(turnIndex, players, board, cards):
                             print(board[-2])
                             print(board[-1])
                             if players[turnIndex] == []:
-                                print(f"The winner is Player{turnIndex}")
+                                print(f"The winner is Player{turnIndex+1}")
                                 return turnIndex
                             turnIndex += 1
                             if turnIndex > 3:
@@ -150,13 +155,15 @@ def type2(turnIndex, players, board, cards):
 
 def type3(turnIndex, players, board, cards):
     cardChoices = []
+    board = [0]
     for i in range(3):
         ans = input(f"Input the card index of card {i+1}: ")
         try:
             cardChoices.append(players[turnIndex][int(ans)])
         except:
             print("INVALID")
-
+    validate(cardChoices, cards, board)
+    
 
 
 
@@ -178,3 +185,5 @@ while play:
         type1(turnIndex, players, board, cards)
     if gameType == 2:
         type2(turnIndex, players, board, cards)
+    if gameType == 3:
+        type3(turnIndex, players, board, cards)
