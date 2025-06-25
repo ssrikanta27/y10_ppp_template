@@ -82,6 +82,7 @@ def type1(turnIndex, players, board, cards):
         else:
             if players[turnIndex] == []:
                 print(f"The winner is Player{turnIndex+1}")
+                exit(0)
                 return turnIndex
             turnIndex += 1
             if turnIndex > 3:
@@ -138,6 +139,7 @@ def type2(turnIndex, players, board, cards):
                             print(board[-1])
                             if players[turnIndex] == []:
                                 print(f"The winner is Player{turnIndex+1}")
+                                exit(0)
                                 return turnIndex
                             turnIndex += 1
                             if turnIndex > 3:
