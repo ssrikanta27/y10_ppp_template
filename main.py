@@ -22,3 +22,10 @@ def createDeck():
             deck.append(('Black', wild))
     random.shuffle(deck)
     return deck
+
+def dealCards(deck, numPlayers):
+    playerHands = [[] for _ in range(numPlayers)] # Basically if 2 people play this would make [[], []]
+    for _ in range(7):
+        for i in range(numPlayers):
+            playerHands[i].append(deck.pop())
+    return playerHands
