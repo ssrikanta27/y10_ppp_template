@@ -41,3 +41,18 @@ def initializeGame(numPlayers):
     discardPile.append(drawPile.pop()) 
     currentPlayer = 0
     playDirection = 1
+
+# Gameplay Functions
+def getNextPlayer():
+    global currentPlayer, playDirection, players # The global variables allow the variables to be accessed anywhere in the code.
+    currentPlayer = (currentPlayer + playDirection) % len(players) # The percentage sign is a modulus it is a good way to loop without using if
+
+def isPlayable(card, topCard):
+    return (card[0] == topCard[0] or card[1] == topCard[1] or card[0] == 'Black') #checking if the card is wild, or if colour is the same or if the number is the same
+# If any of the statements are true it will output true else it will output false
+def drawCard(playerIndex):
+    if not drawPile: # Checks if list is empty
+        reshuffleDiscardIntoDraw() #dfining this later
+    card = drawPile.pop()
+    hands[playerIndex].append(card)
+    return card
