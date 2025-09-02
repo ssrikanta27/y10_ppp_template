@@ -56,3 +56,47 @@ def drawCard(playerIndex):
     card = drawPile.pop()
     hands[playerIndex].append(card)
     return card
+
+def playCard(playerIndex, card):
+    hands[playerIndex].remove(card)
+    discardPile.append(card)
+    applyCardEffect(card)
+
+def applyCardEffect(card):
+    global currentPlayer, playDirection
+    color, value = card
+    if value == 'Skip':
+        print(f"{players[currentPlayer]} played Skip. Next player skipped.")
+        getNextPlayer()
+    elif value == 'Reverse':
+        playDirection *= -1
+        print(f"{players[currentPlayer]} played Reverse. Direction changed.")
+        if len(players) == 2:
+            getNextPlayer()
+    elif value == 'Draw Two':
+        getNextPlayer()
+        for _ in range(2):
+            drawCard(currentPlayer)
+        print(f"{players[currentPlayer]} draws 2 cards.")
+    elif value == 'Wild':
+        chooseColor()
+    elif value == 'Wild Draw Four':
+        chooseColor()
+        getNextPlayer()
+        for _ in range(4):
+            drawCard(currentPlayer)
+        print(f"{players[currentPlayer]} draws 4 cards.")
+
+def chooseColor():
+    global discardPile
+    if players[currentPlayer] == 'You': # player Logic
+        print("Choose a color: Red, Green, Blue, Yellow")
+        while True:
+            chosenColor = input("Your choice: ").capitalize()
+            if chosenColor in colors:
+                break
+            print("Invalid color. Try again.")
+    else:
+        chosenColor = random.choice(colors) # bot logic. Takes a random playable card and plays it.
+        # Probably not the best way to do it but the simplest
+        print(f"{players[currentPlayer]} chooses {chosenColor}")
