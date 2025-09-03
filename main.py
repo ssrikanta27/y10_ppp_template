@@ -52,10 +52,17 @@ def isPlayable(card, topCard):
 # If any of the statements are true it will output true else it will output false
 def drawCard(playerIndex):
     if not drawPile: # Checks if list is empty
-        reshuffleDiscardIntoDraw() #dfining this later
+        reshuffleDiscardIntoDraw()
     card = drawPile.pop()
     hands[playerIndex].append(card)
     return card
+
+def reshuffleDiscardIntoDraw(): # Takes the discard pile renames it draw pile, and shuffles it
+    global drawPile, discardPile
+    topCard = discardPile.pop() # Without an index pop removes the last element in a list
+    drawPile = discardPile
+    random.shuffle(drawPile)
+    discardPile = [topCard]
 
 def playCard(playerIndex, card):
     hands[playerIndex].remove(card)
@@ -100,3 +107,80 @@ def chooseColor():
         chosenColor = random.choice(colors) # bot logic. Takes a random playable card and plays it.
         # Probably not the best way to do it but the simplest
         print(f"{players[currentPlayer]} chooses {chosenColor}")
+        
+    discardPile[-1] = (chosenColor, discardPile[-1][1])
+
+def getPlayableCards(playerIndex, topCard):
+    return [card for card in hands[playerIndex] if isPlayable(card, topCard)] # shows you what cards you can play
+
+def takeTurn():
+    global currentPlayer
+    playerName = players[currentPlayer]
+    topCard = discardPile[-1]
+    print(f"\n{playerName}'s turn. Top card: {topCard}")
+
+    if playerName == 'You':
+        print(f"Your hand: {hands[currentPlayer]}")
+        playableCards = getPlayableCards(currentPlayer, topCard)
+        if playableCards:
+            print("Playable cards:")
+            for i, card in enumerate(playableCards): # Basically allows you to iterate 2 items at onces. The position and the item itself
+                print(f"{i}: {card}")
+            while True:
+                choice = input("Choose a card to play or type 'draw' to draw a card: ")
+                if choice.lower() == 'draw':
+                    drawnCard = drawCard(currentPlayer)
+                    print(f"You drew {drawnCard}")
+                    if isPlayable(drawnCard, topCard):
+                        playCard(currentPlayer, drawnCard)
+                        print(f"You played {drawnCard}")
+                    break
+                elif choice.isdigit() and int(choice) in range(len(playableCards)):
+                    playCard(currentPlayer, playableCards[int(choice)])
+                    break
+                else:
+                    print("Invalid input. Try again.")
+        else:
+            drawnCard = drawCard(currentPlayer)
+            print(f"You drew {drawnCard}")
+            if isPlayable(drawnCard, topCard):
+                playCard(currentPlayer, drawnCard)
+                print(f"You played {drawnCard}")
+    else:
+        playableCards = getPlayableCards(currentPlayer, topCard)
+        if playableCards:
+            cardToPlay = random.choice(playableCards)
+            print(f"{playerName} plays a card.")
+            playCard(currentPlayer, cardToPlay)
+        else:
+            drawnCard = drawCard(currentPlayer)
+            print(f"{playerName} draws a card.")
+            if isPlayable(drawnCard, topCard):
+                print(f"{playerName} plays the drawn card.")
+                playCard(currentPlayer, drawnCard)
+
+    if not hands[currentPlayer]:
+        print(f"\n🎉 {playerName} wins! 🎉")
+        return True
+
+    getNextPlayer()
+    return False
+
+# Main Loop
+def startGame():
+    while True:
+        try:
+            numPlayers = int(input("Enter number of players (2–4): "))
+            if 2 <= numPlayers <= 4:
+                break
+            print("Please enter a number between 2 and 4.")
+        except ValueError:
+            print("Invalid input. Enter a number.")
+    initializeGame(numPlayers)
+    gameOver = False
+    while not gameOver:
+        gameOver = takeTurn()
+
+# Run the game
+if __name__ == "__main__":
+    startGame()
